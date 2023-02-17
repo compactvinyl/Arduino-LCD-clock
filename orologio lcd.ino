@@ -1,5 +1,9 @@
 #include <LiquidCrystal.h>
 
+#define ONE_DAY_IN_HOURS = 24
+#define ONE_HOUR_IN_MINUTES = 60
+#define ONE_MINUTE_IN_SECONDS = 60
+
 int rs = 5;
 int rw = 6;
 int enable = 7;
@@ -29,9 +33,9 @@ void setup() {
 
 void loop() {
   // ogni while serve per dare "un limite" ai vari counter. Raggiunto il limite viene azzerata la variabile; vedi in basso.
-  while(hours < 24) {
-    while(minutes < 60) {
-      while(seconds < 60) {
+  while(hours < ONE_DAY_IN_HOURS) {
+    while(minutes < ONE_HOUR_IN_MINUTES) {
+      while(seconds < ONE_MINUTE_IN_SECONDS) {
         if(minutes < 10) { // se i minuti sono inferiori a 10 viene messo uno zero davanti all'unità per non visualizzarla come 1, 2, 3... ma come 01, 02, 03...
         lcd.setCursor(3, 0);
         lcd.print("0");
@@ -111,7 +115,7 @@ void minutesButtonFunc () {
     while(digitalRead(buttonUpMinutes) == 0) {} // quando il pulsante viene premuto si incrementa la variabile dei minuti
     delay(500);
     minutes++;
-  if (minutes == 60) { minutes = 0; } // quando la variabile arriva a 60 viene resettata
+  if (minutes == ONE_HOUR_IN_MINUTES) { minutes = 0; } // quando la variabile arriva a 60 viene resettata
   	if(minutes < 10 and hours > 10) { // se i minuti sono minori a 10 e le ore maggiori di dieci viene messo uno 0 davanti ai minuti per visualizzare 12:01 e non 12:1
       printHoursAndMinutes(hours, minutes, 0);
   }
@@ -130,7 +134,7 @@ void hoursButtonFunc () {
   while(digitalRead(buttonUpHours) == 0) {} // il processo in questa funzione è analogo, ripetuto per il pulsante delle ore.
   delay(500);
   hours++;
-  if (hours == 24) { hours = 0; }
+  if (hours == ONE_DAY_IN_HOURS) { hours = 0; }
   	if(hours < 10 and minutes > 10) {
       printHoursAndMinutes(hours, minutes, 4);
     }
