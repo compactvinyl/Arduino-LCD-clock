@@ -1,5 +1,9 @@
 #include <LiquidCrystal.h>
 
+#define ONE_DAY_IN_HOURS = 24
+#define ONE_HOUR_IN_MINUTES = 60
+#define ONE_MINUTE_IN_SECONDS = 60
+
 int rs = 5;
 int rw = 6;
 int enable = 7;
@@ -32,9 +36,9 @@ void setup() {
 void loop() {
   // ogni while serve per dare "un limite" ai vari counter. Raggiunto il limite
   // viene azzerata la variabile; vedi in basso.
-  while (hours < 24) {
-    while (minutes < 60) {
-      while (seconds < 60) {
+  while (hours < ONE_DAY_IN_HOURS) {
+    while (minutes < ONE_HOUR_IN_MINUTES) {
+      while (seconds < ONE_MINUTE_IN_SECONDS) {
         if (minutes < 10) {  // se i minuti sono inferiori a 10 viene messo uno
                              // zero davanti all'unità per non visualizzarla
                              // come 1, 2, 3... ma come 01, 02, 03...
@@ -58,14 +62,13 @@ void loop() {
           lcd.setCursor(0, 0);
           lcd.print(hours);
         }
-        if (dotState ==
-            0) {  // se la variabile è = a 0 vengono mostrati i due punti
+        if (dotState == 0) {  // se la variabile è = a 0 vengono mostrati i due punti
           lcd.setCursor(2, 0);
           lcd.print(":");
         }
         delay(1000);  // accelerazione del tempo
         dotState =
-            !dotState;  // ogni secondo viene invertito lo stato della variabile
+          !dotState;          // ogni secondo viene invertito lo stato della variabile
         if (dotState == 1) {  // se la variabile è = a 1 mostra uno spazio vuoto
           lcd.setCursor(2, 0);
           lcd.print(" ");
@@ -90,32 +93,29 @@ void minutesButtonFunc() {
   }  // quando il pulsante viene premuto si incrementa la variabile dei minuti
   delay(500);
   minutes++;
-  if (minutes == 60) {
+  if (minutes == ONE_HOUR_IN_MINUTES) {
     minutes = 0;
-  }  // quando la variabile arriva a 60 viene resettata
-  if (minutes < 10 and
-      hours > 10) {  // se i minuti sono minori a 10 e le ore maggiori di dieci
-                     // viene messo uno 0 davanti ai minuti per visualizzare
-                     // 12:01 e non 12:1
+  }                                   // quando la variabile arriva a 60 viene resettata
+  if (minutes < 10 and hours > 10) {  // se i minuti sono minori a 10 e le ore maggiori di dieci
+                                      // viene messo uno 0 davanti ai minuti per visualizzare
+                                      // 12:01 e non 12:1
     lcd.clear();
     lcd.print(hours);
     lcd.print(":");
     lcd.print("0");
     lcd.print(minutes);
-  } else if (hours < 10 and
-             minutes < 10) {  // se entrambe le variabili sono minori di dieci
-                              // viene messo uno zero davanti cosi da
-                              // visualizzare 01:01 e non 1:1
+  } else if (hours < 10 and minutes < 10) {  // se entrambe le variabili sono minori di dieci
+                                             // viene messo uno zero davanti cosi da
+                                             // visualizzare 01:01 e non 1:1
     lcd.clear();
     lcd.print("0");
     lcd.print(hours);
     lcd.print(":");
     lcd.print("0");
     lcd.print(minutes);
-  } else if (minutes > 10 and
-             hours < 10) {  // se i minuti sono maggiori di 10 e le ore minori
-                            // di 10 viene messe uno 0 davanti alle ore così da
-                            // visualizzare 09:21 invece di 9:21
+  } else if (minutes > 10 and hours < 10) {  // se i minuti sono maggiori di 10 e le ore minori
+                                             // di 10 viene messe uno 0 davanti alle ore così da
+                                             // visualizzare 09:21 invece di 9:21
     lcd.clear();
     lcd.print("0");
     lcd.print(hours);
@@ -136,7 +136,7 @@ void hoursButtonFunc() {
      // ore.
   delay(500);
   hours++;
-  if (hours == 24) {
+  if (hours == ONE_DAY_IN_HOURS) {
     hours = 0;
   }
   if (hours < 10 and minutes > 10) {
