@@ -71,38 +71,58 @@ void loop() {
   hours = 0; // passate 24 ore si resetta la variabile della stessa 
 }
 
+void printHoursAndMinutes(int hours, int minutes, int modality) {
+  switch(modality){
+    case 0:
+      lcd.clear();
+      lcd.print(hours);
+      lcd.print(":");
+      lcd.print("0");
+      lcd.print(minutes);
+      break;
+    case 1:
+      lcd.clear();
+      lcd.print("0");
+      lcd.print(hours);
+      lcd.print(":");
+      lcd.print("0");
+      lcd.print(minutes);
+      break;
+    case 3:
+      lcd.clear();
+      lcd.print(hours);
+      lcd.print(":");
+      lcd.print(minutes);
+      break;
+    case 4:
+      lcd.clear();
+      lcd.print("0");
+      lcd.print(hours);
+      lcd.print(":");
+      lcd.print(minutes);
+      break
+    default:
+      break;
+  }
+  
+}
+
 void minutesButtonFunc () {
     while(digitalRead(buttonUpMinutes) == 0) {} // quando il pulsante viene premuto si incrementa la variabile dei minuti
     delay(500);
     minutes++;
   if (minutes == 60) { minutes = 0; } // quando la variabile arriva a 60 viene resettata
   	if(minutes < 10 and hours > 10) { // se i minuti sono minori a 10 e le ore maggiori di dieci viene messo uno 0 davanti ai minuti per visualizzare 12:01 e non 12:1
-    lcd.clear();
-    lcd.print(hours);
-    lcd.print(":");
-    lcd.print("0");
-    lcd.print(minutes);
+      printHoursAndMinutes(hours, minutes, 0);
   }
   	else if(hours < 10 and minutes < 10) { // se entrambe le variabili sono minori di dieci viene messo uno zero davanti cosi da visualizzare 01:01 e non 1:1
-    lcd.clear();
-    lcd.print("0");
-    lcd.print(hours);
-    lcd.print(":");
-    lcd.print("0");
-    lcd.print(minutes);
+      printHoursAndMinutes(hours, minutes, 1);
     }
   	else if(minutes > 10 and hours < 10) { // se i minuti sono maggiori di 10 e le ore minori di 10 viene messe uno 0 davanti alle ore così da visualizzare 09:21 invece di 9:21
-    lcd.clear();
-    lcd.print("0");
-    lcd.print(hours);
-    lcd.print(":");
-    lcd.print(minutes);
+      printHoursAndMinutes(hours, minutes, 4);
     }
     else { // se inevece sono maggiori o uguali a 10 vengono mostrati normalmente
-    lcd.clear();
-    lcd.print(hours);
-  	lcd.print(":");
-  	lcd.print(minutes);
+      printHoursAndMinutes(hours, minutes, 3);
   }
 }
 
@@ -112,31 +132,15 @@ void hoursButtonFunc () {
   hours++;
   if (hours == 24) { hours = 0; }
   	if(hours < 10 and minutes > 10) {
-    lcd.clear();
-    lcd.print("0");
-    lcd.print(hours);
-    lcd.print(":");
-    lcd.print(minutes);
+      printHoursAndMinutes(hours, minutes, 4);
     }
   	else if(hours < 10 and minutes < 10) {
-    lcd.clear();
-    lcd.print("0");
-    lcd.print(hours);
-    lcd.print(":");
-    lcd.print("0");
-    lcd.print(minutes);
+      printHoursAndMinutes(hours, minutes, 1);
     }
     else if(hours > 10 and minutes <10) {
-    lcd.clear();
-    lcd.print(hours);
-    lcd.print(":");
-    lcd.print("0");
-    lcd.print(minutes);
+      printHoursAndMinutes(hours, minutes, 0);
     }
     else {
-    lcd.clear();
-    lcd.print(hours);
-  	lcd.print(":");
-  	lcd.print(minutes);
+      printHoursAndMinutes(hours, minutes, 3);
   }
 }
